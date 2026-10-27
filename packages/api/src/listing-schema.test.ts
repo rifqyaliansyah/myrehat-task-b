@@ -31,4 +31,16 @@ describe("kategori listing", () => {
                 .success,
         ).toBe(false);
     });
+
+    it("menolak kategori 'Buy Villa' dengan pesan error jelas", () => {
+        const result = createListingInput.safeParse({
+            ...base,
+            category: "Buy Villa",
+        });
+        expect(result.success).toBe(false);
+        if (!result.success) {
+            const messages = result.error.issues.map((i) => i.message).join(", ");
+            expect(messages).toContain("Invalid option");
+        }
+    });
 });
